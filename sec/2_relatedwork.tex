@@ -1,0 +1,113 @@
+\section{Related Work}
+\label{sec:related}
+
+% \subsection{Supervised Skeleton-based Action Recognition}
+% How to effectively model skeleton action sequences using deep neural networks for
+% supervised action recognition has been extensively explored
+% \cite{ding2017investigation,du2015skeleton,li2017skeleton,liu2016spatio,zhang2017view,
+% yan2018spatial,zhang2020semantics,chi2022infogcn,duan2022revisiting}.
+% Earlier works typically use RNNs or CNNs to process skeletal data. 
+% RNN-based methods \cite{liu2016spatio,zhang2017view} usually model skeletal data
+% as a sequence of coordinate vectors, where each coordinate vector represents a
+% human joint. CNN-based methods \cite{du2015skeleton,li2017skeleton} model skeletal
+% data as a pseudo-image, where the time dimension (number of frames) and spatial
+% dimension (number of joints) serve as the image width and height, and the joint
+% coordinates as image channels. Despite achieving decent results, RNNs and CNNs do not
+% well capture the inherent structure of skeletal data. Considering the natural
+% spatiotemporal structure of skeletal data, ST-GCN \cite{yan2018spatial} models skeletal
+% data as a graph structure and uses spatiotemporal graph convolutional networks to extract
+% spatial and temporal features. ST-GCN \cite{yan2018spatial} has become the mainstream
+% architecture for supervised action recognition due to its superior performance,
+% and numerous improvements \cite{zhang2020semantics,chi2022infogcn,chen2021channel,
+% shi2020skeleton} have been proposed, including dynamic graph topologies and various
+% attention mechanisms. 
+% With the rise of Transformer \cite{vaswani2017attention} models in CV
+% \cite{dosovitskiy2020image,liu2021swin} and NLP \cite{devlin2018bert,lewis2019bart},
+% some works \cite{qiu2022spatio,plizzari2021skeleton,shi2020decoupled} have attempted to
+% introduce Transformers to skeleton-based action recognition.
+% However, due to limited
+% training data, vanilla Transformer \cite{vaswani2017attention} does not perform well.
+% Thus, certain designs tailored for data characteristics are incorporated into
+% Transformers to enhance inductive bias, such as temporal convolution \cite{qiu2022spatio},
+% graph convolution \cite{plizzari2021skeleton,qiu2022spatio}, space-time separation
+% \cite{shi2020decoupled}, etc, to alleviate the problem of limited training data and
+% reduce overfitting.
+% Earlier studies often use RNNs or CNNs for skeletal data processing. RNN-based
+% methods \cite{liu2016spatio,zhang2017view} treat skeletal data as sequences of
+% coordinate vectors representing human joints. CNN-based methods
+% \cite{du2015skeleton,li2017skeleton} represent skeletal data as pseudo-images, with
+% the time and spatial dimensions serving as image width and height, and joint
+% coordinates as image channels. However, RNNs and CNNs fail to fully capture the
+% inherent structure of skeletal data. To address this, ST-GCN \cite{yan2018spatial}
+% models skeletal data as a graph structure, using spatiotemporal graph convolutional
+% networks to extract spatial and temporal features. ST-GCN has emerged as the
+% mainstream architecture for supervised action recognition and has seen various
+% improvements \cite{zhang2020semantics,chi2022infogcn,chen2021channel,shi2020skeleton},
+% including dynamic graph topologies and attention mechanisms.
+
+% With the popularity of transformer models in computer vision
+% \cite{dosovitskiy2020image,liu2021swin} and natural language processing
+% \cite{devlin2018bert,lewis2019bart}, recent studies
+% \cite{qiu2022spatio,plizzari2021skeleton,shi2020decoupled} have attempted to
+% introduce transformers into skeleton-based action recognition.
+% However, the performance of the vanilla transformer is limited by the lack of
+% training data. Therefore, designs tailored for data characteristics are incorporated
+% into transformers, such as temporal convolution \cite{qiu2022spatio},
+% graph convolution \cite{plizzari2021skeleton,qiu2022spatio},
+% and space-time separation \cite{shi2020decoupled},
+% to enhance inductive bias and mitigate overfitting.
+
+% Different from fully supervised training methods, this paper adopts the masked
+% modeling paradigm to pretrain the original transformer model using a large amount of
+% unsupervised data in order to learn a high-quality 3D motion representation for
+% subsequent downstream tasks. Experimental results demonstrate that our pretraining
+% enables the original transformer to unleash its inherent potential and achieve
+% remarkable performance.
+
+\subsection{Self-supervised Skeleton-based Action Recognition}
+Previous studies \cite{zheng2018unsupervised,su2020predict,lin2020ms2l} on
+self-supervised representation learning for skeleton-based action recognition
+utilize various pretext tasks to capture motion context.
+For instance, LongTGAN \cite{zheng2018unsupervised} leverages sequence reconstruction
+to learn 3D action representations. P\&C \cite{su2020predict} employs a weak
+decoder to enhance representation learning. MS2L \cite{lin2020ms2l} employs
+motion prediction and jigsaw puzzle tasks. Yang et al. \cite{yang2021skeleton}
+introduce a skeleton cloud colorization task.
+Contrastive learning methods have gained prominence in 3D action representation learning
+\cite{he2020momentum,grill2020bootstrap,rao2021augmented,guo2022contrastive,moliner2022bootstrapped,lin2023actionlet}.
+AS-CAL \cite{rao2021augmented} and SkeletonCLR \cite{li20213d} utilize momentum encoder
+and propose various data augmentation strategies. AimCLR \cite{guo2022contrastive} introduces
+extreme augmentations. ActCLR \cite{lin2023actionlet} performs adaptive action modeling
+on different body parts. Despite their remarkable results, contrastive learning methods
+often overlook local spatio-temporal information, a crucial aspect for 3D action modeling.
+
+The surge in popularity of transformers has led to the mainstream adoption of self-supervised
+pretraining based on masked visual modeling for visual representation learning \cite{he2022masked,bao2021beit}.
+SkeletonMAE \cite{wu2023skeletonmae} and MAMP \cite{mao2023masked} apply the Masked Autoencoder (MAE)
+approach to 3D action representation learning. SkeletonMAE employs a skeleton-based encoder-decoder
+transformer for spatial coordinate reconstruction, while MAMP introduces Masked Motion Prediction
+to explicitly model temporal motion. In this study, we demonstrate that utilizing higher-level
+contextualized representations as prediction targets for masked regions yields superior performance
+compared to directly predicting raw joint coordinates or temporal motion.
+
+\subsection{Masked Image Modeling}
+BEiT \cite{bao2021beit} pioneered masked image modeling (MIM) for self-supervised pretraining
+of visual models, aiming to recover discrete visual tokens from masked patches.
+Subsequently, various prediction targets for MIM have been explored. MAE \cite{he2022masked}
+and SimMIM \cite{xie2022simmim} treat MIM as a denoising self-reconstruction task, utilizing
+raw pixels as the prediction target. MaskFeat \cite{wei2022masked} replaces pixels with HOG
+descriptors to enable more efficient training and achieve superior results. PeCo \cite{dong2023peco}
+introduces a perceptual loss during dVAE training to generate semantically richer discrete
+visual tokens, surpassing BEiT.
+These works demonstrate superior performance by utilizing
+higher-level and semantically richer prediction targets in MIM.
+To further enhance performance,
+data2vec \cite{baevski2022data2vec,baevski2023efficient} employs self-distillation to
+leverage latent target representations from the teacher model output at masked positions.
+Compared to isolated targets like visual tokens or pixels, these contextualized representations
+encompass relevant features from the entire image, enabling improved performance.
+
+In this research, we introduce the data2vec framework into self-supervised pretraining of
+skeleton sequences, utilizing latent contextualized target representations from the teacher
+model to guide the student model in learning more effective 3D action representations.
+
