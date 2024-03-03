@@ -1,46 +1,3 @@
-\begin{table}[tb]
-    \caption{
-      Performance comparison in linear evaluation protocol
-      on NTU 60, NTU 120, and PKU MMD datasets.
-      \textit{Single-stream} refers to Joint,
-      while \textit{Three-stream} denotes Joint+Motion+Bone.
-    }
-    \centering
-    \setlength{\tabcolsep}{4pt} % 增大列与列之间的水平间距
-    \begin{tabular}{l c c c c c c}
-      \toprule
-      \multirow{2}{*}{Method} &
-      \multirow{2}{*}{Input} &
-      \multicolumn{2}{c}{NTU 60} &
-      \multicolumn{2}{c}{NTU 120} &
-      PKU II\\
-      % & & XSub(\%) & XView(\%) & XSub(\%) & XSet(\%) & XSub(\%) \\
-      & & XSub & XView & XSub & XSet & XSub \\
-      \midrule
-      \rowcolor{Gray!20} \multicolumn{7}{l}{\textit{Other pretext tasks:}} \\
-      LongTGAN \cite{zheng2018unsupervised} & Single-stream & 39.1 & 48.1 & - & - & 26.0 \\
-      P\&C \cite{su2020predict} & Single-stream & 50.7 & 75.3 & 42.7 & 41.7 & 25.5 \\
-      \midrule
-      \rowcolor{Gray!20} \multicolumn{7}{l}{\textit{Contrastive Learning:}} \\
-      CrosSCLR \cite{li20213d} & Three-stream & 77.8 & 83.4 & 67.9 & 66.7 & 21.2 \\
-      AimCLR \cite{guo2022contrastive} & Three-stream & 78.9 & 83.8 & 68.2  & 68.8 & 39.5 \\
-      CPM \cite{zhang2022contrastive} & Single-stream & 78.7 & 84.9 & 68.7 & 69.6 & - \\
-      PSTL \cite{Zhou2023SelfsupervisedAR} & Three-stream & 79.1 & 83.8 & 69.2 & 70.3 & 52.3 \\
-      CMD \cite{mao2022cmd} & Single-stream & 79.4 & 86.9 & 70.3 & 71.5 & - \\
-      HaLP \cite{shah2023halp} & Single-stream & 79.7 & 86.8 & 71.1 & 72.2 & 43.5 \\
-      HiCo-Transformer \cite{hico2023} & Single-stream & 81.1 & 88.6 & 72.8 & 74.1 & 49.4 \\
-      SkeAttnCLR \cite{Hua2023SkeAttnCLR} & Three-stream & 82.0 & 86.5 & 77.1 & 80.0 & 55.5 \\
-      ActCLR \cite{lin2023actionlet} & Three-stream & 84.3 & 88.8 & 74.3 & 75.7 & - \\
-      \midrule
-      \rowcolor{Gray!20} \multicolumn{7}{l}{\textit{Masked Prediction:}} \\
-      SkeletonMAE \cite{yan2023skeletonmae} & Single-stream & 74.8 & 77.7 & 72.5 & 73.5 & 36.1 \\
-      MAMP \cite{mao2023masked} & Single-stream & 84.9 & 89.1 & 78.6 & 79.1 & 53.8 \\
-      \textbf{Skeleton2vec(Ours)} & Single-stream & \textbf{85.7} & \textbf{90.3} & \textbf{79.7} & \textbf{81.3} & \textbf{55.6} \\
-      \bottomrule
-    \end{tabular}
-    \label{tab:linear}
-\end{table}
-
 \section{Experiments}
 \subsection{Datasets}
 We evaluate our method on three large-scale 3D skeleton-based action recognition
@@ -90,24 +47,51 @@ with weight decay of 0.05 and betas (0.9, 0.95). The model was trained for a tot
 warmup epochs, and then decaying to 1e-5 according to a cosine decay schedule.
 Our model was trained on 2 RTX 4090 GPUs, with a total batch size of 128.
 
-\subsection{Evaluation and Comparison}
-\noindent \textbf{Linear Evaluation:}
-In the linear evaluation protocol, the parameters of the pre-trained encoder are
-fixed to extract features. A trainable linear classifier is then applied for
-classification. We train for 100 epochs in total using SGD optimizer with momentum of
-0.9 and batch size of 256.
-The initial learning rate is set to 0.1 and is decreased to 0 following a
-cosine decay schedule.
-Our results are evaluated on three datasets: NTU-60, NTU-120, and PKU-MMD.
-Comparison with the latest methods reveals the superiority of our proposed Skeleton2vec,
-as illustrated in \cref{tab:linear}. Notably, in contrast to contrastive learning
-methods, Skeleton2vec, employing the masked prediction approach, demonstrates significant advantages.
-Furthermore, Skeleton2vec outperforms other masked prediction methods across all datasets.
-Particularly, on the NTU-60 XView and NTU-120 XSet datasets, Skeleton2vec exhibits
-superior performance over the previously state-of-the-art method MAMP by 1.2\% and 2.2\%,
-respectively, highlighting the strength of our contextualized prediction targets.
+\begin{table}[tb] \scriptsize
+    \caption{
+      Performance comparison in linear evaluation protocol
+      on NTU 60, NTU 120, and PKU MMD datasets.
+      \textit{Single-stream} refers to Joint,
+      while \textit{Three-stream} denotes Joint+Motion+Bone.
+    }
+    \centering
+    \setlength{\tabcolsep}{4pt} % 增大列与列之间的水平间距
+    \begin{tabular}{l c c c c c c}
+      \toprule
+      \multirow{2}{*}{Method} &
+      \multirow{2}{*}{Input} &
+      \multicolumn{2}{c}{NTU 60} &
+      \multicolumn{2}{c}{NTU 120} &
+      PKU II\\
+      % & & XSub(\%) & XView(\%) & XSub(\%) & XSet(\%) & XSub(\%) \\
+      & & XSub & XView & XSub & XSet & XSub \\
+      \midrule
+      \rowcolor{Gray!20} \multicolumn{7}{l}{\textit{Other pretext tasks:}} \\
+      LongTGAN \cite{zheng2018unsupervised} & Single-stream & 39.1 & 48.1 & - & - & 26.0 \\
+      P\&C \cite{su2020predict} & Single-stream & 50.7 & 75.3 & 42.7 & 41.7 & 25.5 \\
+      \midrule
+      \rowcolor{Gray!20} \multicolumn{7}{l}{\textit{Contrastive Learning:}} \\
+      CrosSCLR \cite{li20213d} & Three-stream & 77.8 & 83.4 & 67.9 & 66.7 & 21.2 \\
+      AimCLR \cite{guo2022contrastive} & Three-stream & 78.9 & 83.8 & 68.2  & 68.8 & 39.5 \\
+      CPM \cite{zhang2022contrastive} & Single-stream & 78.7 & 84.9 & 68.7 & 69.6 & - \\
+      PSTL \cite{Zhou2023SelfsupervisedAR} & Three-stream & 79.1 & 83.8 & 69.2 & 70.3 & 52.3 \\
+      CMD \cite{mao2022cmd} & Single-stream & 79.4 & 86.9 & 70.3 & 71.5 & - \\
+      HaLP \cite{shah2023halp} & Single-stream & 79.7 & 86.8 & 71.1 & 72.2 & 43.5 \\
+      HiCo-Transformer \cite{hico2023} & Single-stream & 81.1 & 88.6 & 72.8 & 74.1 & 49.4 \\
+      SkeAttnCLR \cite{Hua2023SkeAttnCLR} & Three-stream & 82.0 & 86.5 & 77.1 & 80.0 & 55.5 \\
+      ActCLR \cite{lin2023actionlet} & Three-stream & 84.3 & 88.8 & 74.3 & 75.7 & - \\
+      \midrule
+      \rowcolor{Gray!20} \multicolumn{7}{l}{\textit{Masked Prediction:}} \\
+      SkeletonMAE \cite{yan2023skeletonmae} & Single-stream & 74.8 & 77.7 & 72.5 & 73.5 & 36.1 \\
+      MAMP \cite{mao2023masked} & Single-stream & 84.9 & 89.1 & 78.6 & 79.1 & 53.8 \\
+      \textbf{Skeleton2vec(Ours)} & Single-stream & \textbf{85.7} & \textbf{90.3} & \textbf{79.7} & \textbf{81.3} & \textbf{55.6} \\
+      \bottomrule
+    \end{tabular}
+    \label{tab:linear}
+    \vspace{-15pt}
+\end{table}
 
-\begin{table}[tb]
+\begin{table}[tb] \scriptsize
     \caption{
       Performance comparison in the semi-supervised protocol on NTU 60 datasets.
       We averaged the results of five runs as the final performance.
@@ -126,9 +110,9 @@ respectively, highlighting the strength of our contextualized prediction targets
       LongTGAN \cite{zheng2018unsupervised} & Single-stream & 35.2 & 62.0 & - & - \\
       MS2L \cite{lin2020ms2l} & Single-stream & 33.1 & 65.1 & - & - \\
       \rowcolor{Gray!20} \multicolumn{6}{l}{\textit{Contrastive Learning:}} \\
-      ISC \cite{thoker2021skeleton} & Single-stream & 35.7 & 65.9 & 38.1 & 72.5 \\
+      % ISC \cite{thoker2021skeleton} & Single-stream & 35.7 & 65.9 & 38.1 & 72.5 \\
       3s-CrosSCLR \cite{li20213d} & Three-stream & 51.1 & 74.4 & 50.0 & 77.8 \\
-      3s-Colorization \cite{yang2021skeleton} & Three-stream & 48.3 & 71.7 & 52.5 & 78.9 \\
+      % 3s-Colorization \cite{yang2021skeleton} & Three-stream & 48.3 & 71.7 & 52.5 & 78.9 \\
       3s-Hi-TRS \cite{chen2022hierarchically} & Three-stream & 49.3 & 77.7 & 51.5 & 81.1 \\
       3s-AimCLR \cite{guo2022contrastive} & Three-stream & 54.8 & 78.2 & 54.3 & 81.6 \\
       3s-CMD \cite{mao2022cmd} & Three-stream & 55.6 & 79.0 & 55.5 & 82.4 \\
@@ -143,9 +127,10 @@ respectively, highlighting the strength of our contextualized prediction targets
       \bottomrule
     \end{tabular}
     \label{tab:semi-supervised}
+    \vspace{-14pt}
 \end{table}
 
-\begin{table}[tb]
+\begin{table}[tb] \scriptsize
     \caption{
       Performance comparison in fine-tuning protocol on NTU 60 and NTU 120 datasets.
       The best results are shown in bold, and the second-best results
@@ -175,43 +160,78 @@ respectively, highlighting the strength of our contextualized prediction targets
       SkeletonMAE \cite{wu2023skeletonmae} & Single-stream & STTFormer & 86.6 & 92.9 & 76.8 & 79.1 \\
       SkeletonMAE \cite{yan2023skeletonmae} & Single-stream & STRL & 92.8 & 96.5 & 84.8 & 85.7 \\
       MotionBERT \cite{zhu2023motionbert} & Single-stream & DSTformer & 93.0 & 97.2 & - & - \\
-      MAMP \cite{mao2023masked} & Single-stream & Transformer & \textbf{93.1} & \underline{97.5} & \textbf{90.0} & \textbf{91.3} \\
+      MAMP \cite{mao2023masked} & Single-stream & Transformer & \underline{93.1} & \underline{97.5} & \textbf{90.0} & \textbf{91.3} \\
       \midrule
-      \textbf{Skeleton2vec(Ours)} & Single-stream & Transformer & \textbf{93.2} & \textbf{97.8} & \underline{89.5} & \textbf{91.3} \\
+      \textbf{Skeleton2vec(Ours)} & Single-stream & Transformer & \textbf{93.2} & \textbf{97.8} & \underline{89.8} & \textbf{91.3} \\
       \bottomrule
     \end{tabular}
     \label{tab:fine-tuning}
+    \vspace{-15pt}
 \end{table}
 
-\begin{table}[tb]
-    \centering
-    \begin{tabular}{l c c}
-      \toprule
-      \multirow{2}{*}{Method} &
-      \multicolumn{2}{c}{To PKU-II} \\
-      & NTU 60 & NTU 120 \\
-      \midrule
-      LongTGAN \cite{zheng2018unsupervised} & 44.8 & - \\
-      MS2L \cite{lin2020ms2l} & 45.8 & - \\
-      ISC \cite{thoker2021skeleton} & 51.1 & 52.3 \\
-      CMD \cite{mao2022cmd} & 56.0 & 57.0 \\
-      HaLP+CMD \cite{shah2023halp} & 56.6 & 57.3 \\
-      SkeletonMAE \cite{wu2023skeletonmae} & 58.4 & 61.0 \\
-      MAMP \cite{mao2023masked} & 70.6 & 73.2 \\
-      \midrule
-      \textbf{Skeleton2vec(Ours)} & \textbf{73.0} & \textbf{75.1} \\
-      \bottomrule
-    \end{tabular}
-    \caption{
-      Performance comparison in the transfer learning protocol.
-      The source datasets are NTU-60 and NTU-120, and the target dataset is PKU-II.
-    }
-    \label{tab:transer}
-\end{table}
+\subsection{Evaluation and Comparison}
+\noindent \textbf{Linear Evaluation:}
+In the linear evaluation protocol, the parameters of the pre-trained encoder are
+fixed to extract features. A trainable linear classifier is then applied for
+classification. We train for 100 epochs in total using SGD optimizer with momentum of
+0.9 and batch size of 256.
+The initial learning rate is set to 0.1 and is decreased to 0 following a
+cosine decay schedule.
+Our results are evaluated on three datasets: NTU-60, NTU-120, and PKU-MMD.
+Comparison with the latest methods reveals the superiority of our proposed Skeleton2vec,
+as illustrated in \cref{tab:linear}. Notably, in contrast to contrastive learning
+methods, Skeleton2vec, employing the masked prediction approach, demonstrates significant advantages.
+Furthermore, Skeleton2vec outperforms other masked prediction methods across all datasets.
+Particularly, on the NTU-60 XView and NTU-120 XSet datasets, Skeleton2vec exhibits
+superior performance over the previously state-of-the-art method MAMP by 1.2\% and 2.2\%,
+respectively, highlighting the strength of our contextualized prediction targets.
+
+% \begin{table}[tb]
+%     \centering
+%     \begin{tabular}{l c c}
+%       \toprule
+%       \multirow{2}{*}{Method} &
+%       \multicolumn{2}{c}{To PKU-II} \\
+%       & NTU 60 & NTU 120 \\
+%       \midrule
+%       LongTGAN \cite{zheng2018unsupervised} & 44.8 & - \\
+%       MS2L \cite{lin2020ms2l} & 45.8 & - \\
+%       ISC \cite{thoker2021skeleton} & 51.1 & 52.3 \\
+%       CMD \cite{mao2022cmd} & 56.0 & 57.0 \\
+%       HaLP+CMD \cite{shah2023halp} & 56.6 & 57.3 \\
+%       SkeletonMAE \cite{wu2023skeletonmae} & 58.4 & 61.0 \\
+%       MAMP \cite{mao2023masked} & 70.6 & 73.2 \\
+%       \midrule
+%       \textbf{Skeleton2vec(Ours)} & \textbf{73.0} & \textbf{75.1} \\
+%       \bottomrule
+%     \end{tabular}
+%     \caption{
+%       Performance comparison in the transfer learning protocol.
+%       The source datasets are NTU-60 and NTU-120, and the target dataset is PKU-II.
+%     }
+%     \label{tab:transer}
+% \end{table}
+
+% \begin{figure}
+%   \centering
+%   \includegraphics[width=0.95\linewidth]{figures/rebuttal_teacher_student.pdf}
+%   \caption{
+%     Ablation study on the EMA parameter $\tau_{0}$.
+%     The results are reported on the NTU-60 XSub dataset under the
+%     linear protocol.
+%   }
+%   \label{fig:teacher_and_student}
+% \end{figure}
 
 \noindent \textbf{Semi-supervised Evaluation:}
-In the semi-supervised evaluation protocol, only 1\% and 10\% of the training
-data are employed for fine-tuning, maintaining consistency with other training settings.
+In the semi-supervised protocol, we add an MLP head to the pre-trained
+encoder and then fine-tune the entire network using only 1\% and 10\% of the training data.
+We use the AdamW optimizer with a
+weight decay of 0.05. The learning rate starts at 0 and linearly increases to 3e-4
+for the first 5 epochs, then decreases to 1e-5 according to a cosine decay schedule.
+We train the network for a total of 100 epochs with a batch size of 48.
+% In the semi-supervised evaluation protocol, only 1\% and 10\% of the training
+% data are employed for fine-tuning, maintaining consistency with other training settings.
 Evaluations on the NTU-60 dataset and comparisons with state-of-the-art approaches
 such as HYSP \cite{franco2023hyperbolic}, SkeAttnCLR \cite{Hua2023SkeAttnCLR}, and MAMP
 \cite{mao2023masked} are conducted.
@@ -222,33 +242,60 @@ settings, Skeleton2vec outperforms MAMP by 9.7\% and 7.5\%, respectively,
 affirming the superiority of the proposed Skeleton2vec pretraining framework.
 
 \noindent \textbf{Fine-tuning Evaluation:}
-In the fine-tuning protocol, we add an MLP head to the pre-trained
-encoder and then fine-tune the entire network. We use the AdamW optimizer with a
-weight decay of 0.05. The learning rate starts at 0 and linearly increases to 3e-4
-for the first 5 epochs, then decreases to 1e-5 according to a cosine decay schedule.
-We train the network for a total of 100 epochs with a batch size of 48.
+Under the fine-tuning protocol, we employ the same training settings as the
+semi-supervised protocol, but fine-tuned using 100\% of the training data.
+% In the fine-tuning protocol, we add an MLP head to the pre-trained
+% encoder and then fine-tune the entire network. We use the AdamW optimizer with a
+% weight decay of 0.05. The learning rate starts at 0 and linearly increases to 3e-4
+% for the first 5 epochs, then decreases to 1e-5 according to a cosine decay schedule.
+% We train the network for a total of 100 epochs with a batch size of 48.
 Evaluation of the fine-tuning results on the NTU-60 and NTU-120 datasets is
 presented in \cref{tab:fine-tuning}. Our proposed Skeleton2vec consistently outperforms
 previous methods based on the masked prediction task, including SkeletonMAE \cite{yan2023skeletonmae}
-and MotionBERT \cite{zhu2023motionbert}, across all datasets. Moreover, our
-approach demonstrates comparable results to the current state-of-the-art method,
-MAMP \cite{mao2023masked}, and achieves further improvements on the NTU-60 XView dataset.
+and MotionBERT \cite{zhu2023motionbert}, across all datasets.
+Additionally, our approach demonstrated comparable or even superior performance compared
+to the state-of-the-art method MAMP \cite{mao2023masked} on most datasets, particularly
+on the NTU-60 XView dataset. However, the advantage of our method under the
+fine-tuning protocol seems less pronounced compared to the semi-supervised protocol.
+This is primarily because the model achieves a good fit when fine-tuned using a
+sufficient amount of training data (100\%), thus mitigating the performance differences
+introduced by various pre-training methods.
+This phenomenon is also evident in the results of the semi-supervised protocol (\cref{tab:semi-supervised}),
+where the performance improvement from using 10\% of the training data is much smaller
+than that from using 1\% of the training data.
+% Furthermore, the choice of training settings and tricks can significantly
+% impact the results under the fine-tuning protocol.
+% Moreover, our
+% approach demonstrates comparable results to the current state-of-the-art method,
+% MAMP \cite{mao2023masked}, and achieves further improvements on the NTU-60 XView dataset.
 
 \noindent \textbf{Transfer Learning Evaluation:}
 In the transfer learning evaluation protocol, pretraining is initially performed
 on the source dataset and subsequently fine-tuned on the target dataset. The
 source datasets used in our experiments are NTU-60 and NTU-120, with the target
-dataset being PKU-MMD II. As illustrated in \cref{tab:transer}, our proposed
+dataset being PKU-MMD II. As illustrated in \cref{tab:transfer}, our proposed
 Skeleton2vec surpasses the state-of-the-art method MAMP by 2.4\% and 1.9\% when
 using NTU-60 and NTU-120 as source datasets, respectively. This underscores the
 robustness of features learned through the Skeleton2vec framework.
 
 \subsection{Ablation Study}
-We conducted an extensive ablation study on NTU-60 dataset to analyze the proposed
+We conducted an extensive ablation study on NTU-60 XSub dataset and NTU-60 XView dataset to analyze the proposed
 SKeleton2vec framework. Unless otherwise specified, we pre-train the model for 200
 epochs and report the results under the linear evaluation protocol.
 
-\noindent \textbf{Teacher Weight Update:}:
+\noindent \textbf{Teacher vs. Student:}
+Compared to offline pre-training a teacher network using additional labeled data or
+pretext tasks to guide a student, our Skeleton2vec employs online updating of the
+teacher's parameters through EMA of the student's parameters.
+This approach does not require labeled data or additional training stages,
+making it a highly cost-effective choice.
+To demonstrate the teacher's ability to guide the student through online EMA updates,
+we illustrate in \cref{fig:teacher_and_student} the performance evolution of both teacher and student on the
+NTU-60 XSub dataset throughout the training process.
+It is evident that the teacher consistently outperforms the student,
+indicating that the teacher has learned high-level semantics and can effectively guide the student.
+
+\noindent \textbf{Teacher Weight Update:}
 We regulate the update frequency of teacher's weights by adjusting the parameter
 $\tau_{0}$ in the exponential moving average. In \cref{fig:ema_ablation}, we compared the
 impact of four different values of $\tau_{0}$ on the pre-training performance of the model.
@@ -261,220 +308,71 @@ Through experimentation, we found that using an appropriate $\tau_{0}$ value (0.
 achieves a balanced convergence speed and growth potential,
 resulting in optimal performance.
 
-
-% \begin{figure}
-%   \centering
-%   \includegraphics[width=0.95\linewidth]{figures/ema_ablation.pdf}
-%   \caption{
-%     Ablation study on the EMA parameter $\tau_{0}$.
-%     The results are reported on the NTU-60 XSub dataset under the
-%     linear protocol.
-%   }
-%   \label{fig:ema_ablation}
-% \end{figure}
-
-% \begin{figure}[tb]
-%   \centering
-%   \includegraphics[width=0.95\linewidth]{figures/alpha_ablation.pdf}
-%   \caption{
-%     Ablation study on the tube length.
-%     $\alpha=0$ is equivalent to random masking, while $\alpha=30$, which is the length
-%     of the input sequence, is equivalent to single-tube masking.
-%   }
-%   \label{fig:alpha_ablation}
-% \end{figure}
-
-\begin{figure}[htbp]
-  \begin{minipage}[b]{0.49\linewidth}
+\begin{figure}[tb]
+  \begin{minipage}[b]{0.48\linewidth}
     \centering
-    \includegraphics[width=0.95\linewidth]{figures/ema_ablation.pdf}
-    \caption{Ablation study on the EMA parameter $\tau_{0}$. The results are reported on the NTU-60 XSub dataset under the linear protocol.}
+    \captionof{table}{
+      Performance comparison in the transfer learning protocol.
+      The source datasets are NTU-60 and NTU-120, and the target dataset is PKU-II.
+    }
+    \begin{tabular}{l c c}
+      \toprule
+      \multirow{2}{*}{Method} &
+      \multicolumn{2}{c}{To PKU-II} \\
+      & NTU 60 & NTU 120 \\
+      \midrule
+      % LongTGAN \cite{zheng2018unsupervised} & 44.8 & - \\
+      % MS2L \cite{lin2020ms2l} & 45.8 & - \\
+      ISC \cite{thoker2021skeleton} & 51.1 & 52.3 \\
+      CMD \cite{mao2022cmd} & 56.0 & 57.0 \\
+      HaLP+CMD \cite{shah2023halp} & 56.6 & 57.3 \\
+      SkeletonMAE \cite{wu2023skeletonmae} & 58.4 & 61.0 \\
+      MAMP \cite{mao2023masked} & 70.6 & 73.2 \\
+      \midrule
+      \textbf{Skeleton2vec(Ours)} & \textbf{73.0} & \textbf{75.1} \\
+      \bottomrule
+    \end{tabular}
+    \label{tab:transfer}
+  \end{minipage}\hfill
+  \begin{minipage}[b]{0.48\linewidth}
+    \centering
+    \includegraphics[width=0.80\linewidth]{figures/rebuttal_teacher_student.pdf}
+    \caption{
+      The performance comparison between teacher and student on the NTU-60 XSub
+      dataset across the training process, under the linear protocol.
+    }
+    \label{fig:teacher_and_student}
+  \end{minipage}
+  \vspace{-15pt}
+\end{figure}
+
+\begin{figure}[tb]
+  \begin{minipage}[b]{0.48\linewidth}
+    \centering
+    \includegraphics[width=0.75\linewidth]{figures/ema_ablation.pdf}
+    \caption{
+      Ablation study of EMA parameter $\tau_{0}$ on the NTU-60 XSub dataset
+      under linear protocol.
+      % Ablation study on the EMA parameter $\tau_{0}$.
+      % The results are reported on the NTU-60 XSub dataset under the linear protocol.
+      }
     \label{fig:ema_ablation}
   \end{minipage}
   \hfill
-  \begin{minipage}[b]{0.49\linewidth}
+  \begin{minipage}[b]{0.48\linewidth}
     \centering
-    \includegraphics[width=0.95\linewidth]{figures/alpha_ablation.pdf}
-    \caption{Ablation study on the tube length. $\alpha=0$ is equivalent to random masking, while $\alpha=30$, which is the length of the input sequence, is equivalent to single-tube masking.}
+    \includegraphics[width=0.75\linewidth]{figures/alpha_ablation.pdf}
+    \caption{
+      Ablation study of the tube length $\alpha$ on the NTU-60 XSub and XView datasets.
+      % Ablation study on the tube length $\alpha$.
+      % $\alpha=0$ is equivalent to random masking, while $\alpha=30$, which is the length of the input sequence, is equivalent to single-tube masking.
+      }
     \label{fig:alpha_ablation}
   \end{minipage}
+  \vspace{-14pt}
 \end{figure}
 
-% \begin{figure}[tb]
-%   \centering
-%   \includegraphics[width=0.95\linewidth]{figures/fig_masking.pdf}
-%   \caption{
-%     Demonstration of various masking strategies.
-%     The grey areas represent the masked parts of the body
-%   }
-%   \label{fig:masking_demo}
-% \end{figure}
-
-% \begin{table}[tb]
-%     \centering
-%     \begin{tabular}{c@{\hspace{6pt}}c c c c}
-%       \toprule
-%       \multirow{2}{*}{Strategy} &
-%       \multirow{2}{*}{$\alpha$} &
-%       \multirow{2}{*}{$\beta$} &
-%       \multicolumn{2}{c}{NTU 60} \\
-%       & & & XSub & XView \\
-%       \midrule
-%       Random & 1 & 0.0 & 79.4 & 85.1 \\
-%       Single-tube & 30 & 0.0 & 78.2 & 83.4 \\
-%       Multi-tube & 5 & 0.0 & 83.0 & 87.2 \\
-%       \textbf{MAMT(Ours)} & 5 & 0.1 & \textbf{83.5} & \textbf{87.7} \\
-%       \bottomrule
-%     \end{tabular}
-%     \caption{
-%       Ablation study on the masking strategy.
-%       $\alpha$ represents the length of each tube, while $\beta$ denotes the
-%       parameter of motion-aware sampling.
-%     }
-%     \label{tab:masking_strategy}
-% \end{table}
-
-% \begin{figure}[tb]
-%   \begin{minipage}[b]{0.51\linewidth}
-%     \centering
-%     \includegraphics[width=\linewidth]{figures/fig_masking.pdf}
-%     \caption{Demonstration of various masking strategies. The grey areas represent the masked parts of the body}
-%     \label{fig:masking_demo}
-%   \end{minipage}%
-%   \hfill
-%   \begin{minipage}[b]{0.48\linewidth}
-%     \centering
-%     \begin{tabular}{c c c c c}
-%       \toprule
-%       \multirow{2}{*}{Strategy} &
-%       \multirow{2}{*}{$\alpha$} &
-%       \multirow{2}{*}{$\beta$} &
-%       \multicolumn{2}{c}{NTU 60} \\
-%       & & & XSub & XView \\
-%       \midrule
-%       Random & 1 & 0.0 & 79.4 & 85.1 \\
-%       Single-tube & 30 & 0.0 & 78.2 & 83.4 \\
-%       Multi-tube & 5 & 0.0 & 83.0 & 87.2 \\
-%       \textbf{MAMT(Ours)} & 5 & 0.1 & \textbf{83.5} & \textbf{87.7} \\
-%       \bottomrule
-%     \end{tabular}
-%     \captionof{table}{Ablation study on the masking strategy. $\alpha$ represents the length of each tube, while $\beta$ denotes the parameter of motion-aware sampling.}
-%     \label{tab:masking_strategy}
-%   \end{minipage}
-% \end{figure}
-
-% \begin{table}[tb]
-%     \centering
-%     \begin{subtable}[t]{0.495\linewidth}
-%       \begin{tabular}{c c c}
-%         \toprule
-%         \multirow{2}{*}{$\beta$} &
-%         \multicolumn{2}{c}{NTU 60} \\
-%         & XSub & XView \\
-%         \midrule
-%         0.0 & 83.0 & 87.2 \\
-%         0.1 & \textbf{83.5} & \textbf{87.7} \\
-%         0.2 & 82.1 & 87.0 \\
-%         0.3 & 79.5 & 86.3 \\
-%         \bottomrule
-%       \end{tabular}
-%       \caption{
-%         Motion-aware sampling
-%       }
-%       \label{tab:beta}
-%     \end{subtable}
-%     \begin{subtable}[t]{0.495\linewidth}
-%       \begin{tabular}{c c c}
-%         \toprule
-%         \multirow{2}{*}{$m$} &
-%         \multicolumn{2}{c}{NTU 60} \\
-%         & XSub & XView \\
-%         \midrule
-%         0.80 & 83.1 & 86.7 \\
-%         0.85 & 83.3 & 87.3 \\
-%         0.90 & \textbf{83.5} & \textbf{87.7} \\
-%         0.95 & 77.1 & 82.1 \\
-%         \bottomrule
-%       \end{tabular}
-%       \caption{
-%         Masking ratio
-%       }
-%       \label{tab:masking_ratio}
-%   \end{subtable}
-%   \caption{
-%     Ablation study on the masking ratio and motion-aware sampling.
-%   }
-%   \label{tab:masking_ratio_and_beta}
-% \end{table}
-
-% \begin{figure}[tb]
-%     \begin{minipage}[t]{0.5\linewidth}
-%         \centering
-%         \begin{tabular}{c c c c c}
-%           \toprule
-%           \multirow{2}{*}{Strategy} &
-%           \multirow{2}{*}{$\alpha$} &
-%           \multirow{2}{*}{$\beta$} &
-%           \multicolumn{2}{c}{NTU 60} \\
-%           & & & XSub & XView \\
-%           \midrule
-%             Random & 1 & 0.0 & 79.4 & 85.1 \\
-%             Single-tube & 30 & 0.0 & 78.2 & 83.4 \\
-%             Multi-tube & 5 & 0.0 & 83.0 & 87.2 \\
-%             \textbf{MAMT(Ours)} & 5 & 0.1 & \textbf{83.5} & \textbf{87.7} \\
-%           \bottomrule
-%         \end{tabular}
-%         % \captionsetup{width=0.8\linewidth}
-%         \captionof{table}{Masking strategy.}
-%         \label{tab:masking_strategy}
-%     \end{minipage}
-%     \hfill
-%     \begin{minipage}[t]{0.24\linewidth}
-%         \centering
-%         \begin{tabular}{c c c}
-%             \toprule
-%             \multirow{2}{*}{$\beta$} &
-%             \multicolumn{2}{c}{NTU 60} \\
-%             & XSub & XView \\
-%             \midrule
-%             0.0 & 83.0 & 87.2 \\
-%             0.1 & \textbf{83.5} & \textbf{87.7} \\
-%             0.2 & 82.1 & 87.0 \\
-%             0.3 & 79.5 & 86.3 \\
-%             \bottomrule
-%         \end{tabular}
-%         % \captionsetup{width=0.8\linewidth}
-%         \captionof{table}{Motion-aware sampling}
-%         \label{tab:beta}
-%     \end{minipage}
-%     \hfill
-%     \begin{minipage}[t]{0.24\linewidth}
-%         \centering
-%         \begin{tabular}{c c c}
-%             \toprule
-%             \multirow{2}{*}{$m$} &
-%             \multicolumn{2}{c}{NTU 60} \\
-%             & XSub & XView \\
-%             \midrule
-%             0.80 & 83.1 & 86.7 \\
-%             0.85 & 83.3 & 87.3 \\
-%             0.90 & \textbf{83.5} & \textbf{87.7} \\
-%             0.95 & 77.1 & 82.1 \\
-%             \bottomrule
-%         \end{tabular}
-%         % \captionsetup{width=0.8\linewidth}
-%         \captionof{table}{Masking ratio}
-%         \label{tab:masking_ratio}
-%     \end{minipage}
-%     \caption{
-%       Ablation study on the Motion-Aware Multi-Tube (MAMT) masking strategy.
-%       $\alpha$ represents the length of each tube, while $\beta$ denotes the parameter of motion-aware sampling.
-%       $m$ denotes the masking ratio.
-%     }
-%     \label{tab:masking_ratio_and_beta}
-% \end{figure}
-
-\begin{figure}[tb]
+\begin{figure}[tb] \scriptsize
     \captionof{table}{Ablation study on the \textbf{Motion-Aware Multi-Tube (MAMT)} masking strategy. $\alpha$ represents the length of each tube, while $\beta$ denotes the parameter of motion-aware sampling. $m$ denotes the masking ratio.}
     \centering
     \begin{subfigure}[t]{0.5\linewidth}
@@ -528,19 +426,59 @@ resulting in optimal performance.
         \label{tab:masking_ratio}
     \end{subfigure}
     \label{tab:masking_ratio_and_beta}
+    \vspace{-18pt}
 \end{figure}
 
 \noindent \textbf{Masking Strategy:}
-\cref{tab:masking_strategy} illustrates the effectiveness of our proposed
-motion-aware tube masking strategy. We compared its performance with random masking
-and tube masking (without motion-aware sampling). The results indicate a significant
-performance boost with tube masking compared to random masking, showing improvements
-of 3.6\% and 2.1\% under the XSub and XView testing protocols of the NTU-60 dataset,
-respectively. This underscores the capability of tube segmentation to compel the
-model into effective long-range motion modeling. Moreover, motion-aware tube masking
+% \cref{tab:masking_strategy} illustrates the effectiveness of our proposed
+% Motion-Aware Multi-Tube (MAMT) masking strategy.
+% We compared its performance with other masking strategies.
+% We compared its performance with random masking
+% and tube masking (without motion-aware sampling).
+% The results indicate a significant
+% performance boost with multi-tube masking compared to random and single-tube masking, showing improvements
+% of 3.6\% and 2.1\% under the XSub and XView testing protocols of the NTU-60 dataset,
+% respectively. This underscores the capability of tube segmentation to compel the
+% model into effective long-range motion modeling.
+\cref{tab:masking_strategy} presents a performance comparison between our
+proposed Motion-Aware Multi-Tube (MAMT) masking strategy and other methods.
+It is evident that compared to random masking and single-tube masking,
+multi-tube masking yields a significant performance improvement,
+validating the effectiveness of dividing into multiple tubes.
+We visually illustrate the differences between the three masking strategies
+in \cref{fig:masking_cmp}. It can be observed that random masking samples a different
+masking map for each frame, single-tube masking shares a single masking map
+across all frames, while multi-tube masking is a compromise between the two,
+sharing the masking map only among several adjacent frames.
+This approach mitigates information leakage while encouraging the model to
+establish long-range spatiotemporal relationships.
+Moreover, motion-aware sampling
 further improves performance, highlighting the value of guiding the model to focus
 on semantically rich action regions. A detailed analysis of hyperparameters in
-motion-aware tube masking will be presented in subsequent sections.
+MAMT masking will be presented in subsequent sections.
+
+\begin{figure}[tb]
+    \centering
+    \begin{minipage}[b]{0.48\linewidth}
+        \centering
+        \includegraphics[width=0.70\linewidth]{figures/fig_qualitative.pdf}
+        \caption{
+          Visualization of the average multi-head self-attention matrices(Top) and
+          t-SNE feature embeddings for 30 classes in the NTU60-XSub dataset(Bottom).
+        }
+        \label{fig:qualitative}
+    \end{minipage}\hfill
+    \begin{minipage}[b]{0.49\linewidth}
+        \centering
+        \includegraphics[width=0.90\linewidth]{figures/fig_masking_cmp.pdf}
+        \caption{
+          Intuitive comparison of different masking strategies.
+          $\alpha$ represents the tube length, and $seq_len$ represents the sequence length.
+        }
+        \label{fig:masking_cmp}
+    \end{minipage}
+    \vspace{-15pt}
+\end{figure}
 
 \noindent \textbf{Tube Length:}
 We investigated the impact of the length $\alpha$ of each tube on pre-training performance.
@@ -552,7 +490,7 @@ Hence, selecting an appropriate tube length is crucial. Considering the results
 from \cref{fig:alpha_ablation}, we identified a tube length of $\alpha=5$ as
 optimal, achieving the best balance and performance.
 
-\noindent \textbf{Motion-aware Sampling:}:
+\noindent \textbf{Motion-aware Sampling:}
 We compared the performance of learned representations under different motion-aware
 sampling parameters $\beta$. As shown in \cref{tab:beta}, selecting an appropriate
 sampling parameter enhances pre-training performance compared to not using
@@ -561,8 +499,33 @@ can result in overly fixed sampling of joints, leading to a loss of diversity an
 a subsequent performance decline. We empirically found that a sampling parameter of
 $\beta=0.1$ yields the best results.
 
-\noindent \textbf{Masking Ratio:}:
+\noindent \textbf{Masking Ratio:}
 In \cref{tab:masking_ratio}, we compared the influence of different masking ratios
 on the results. It is evident that excessively large or small masking ratios can
 impair the final performance. We ultimately selected a masking ratio of 90\% to
 achieve optimal results.
+
+\noindent \textbf{Qualitative Results:}
+% To demonstrate the superiority of using contextualized representations
+% as self-supervised prediction targets in our Skeleton2vec,
+% We compared the average multi-head self-attention matrices and the output
+% feature embeddings of the last layer of the pre-trained encoders for
+% Skeleton2vec and MAMP \cite{mao2023masked}. The visualization results are
+% depicted in \cref{fig:qualitative}, where the feature embeddings are
+% derived from samples of 30 classes selected from the NTU-60 XSub test set
+% and dimensionality reduction is performed using t-SNE.
+% It is observed that compared to MAMP \cite{mao2023masked},
+% Skeleton2vec exhibits a more uniform and global attention distribution,
+% primarily attributed to the utilization of globally contextualized representations
+% as prediction targets rather than merely local motion context.
+% Additionally, the features outputted by our Skeleton2vec demonstrate
+% significantly better separability, affirming the effectiveness of our approach.
+To illustrate the effectiveness of contextualized representations as self-supervised targets
+in Skeleton2vec, we compared the average multi-head self-attention matrices and
+output feature embeddings of pre-trained encoders between Skeleton2vec and MAMP \cite{mao2023masked}.
+Visualization results (see \cref{fig:qualitative}) depict feature embeddings from a subset
+of 30 classes from the NTU-60 XSub test set, with dimensionality reduction via t-SNE.
+Compared to MAMP, Skeleton2vec shows a more uniform and global attention distribution,
+thanks to its use of globally contextualized representations as prediction targets
+rather than local motion context alone. Furthermore, Skeleton2vec's feature outputs exhibit
+significantly improved separability, confirming the efficacy of our approach.

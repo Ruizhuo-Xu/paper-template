@@ -1,21 +1,33 @@
 \section{Introduction}
 \label{sec:intro}
 
-\begin{figure}[tb]
-	\centering
-	\begin{subfigure}{0.3\linewidth}
-		\centering
-		\includegraphics[width=1.0\linewidth]{figures/fig1_MAE.pdf}
-		\caption{MAE-like}
-		\label{fig1:MAE}
-	\end{subfigure}
-	\centering
-	\begin{subfigure}{0.3\linewidth}
-		\centering
-		\includegraphics[width=1.0\linewidth]{figures/fig1_skeleton2vec.pdf}
-		\caption{Skeleton2vec(Ours)}
-		\label{fig1:skeleton2vec}
-	\end{subfigure}
+% \begin{figure}[tb]
+% 	\centering
+% 	\begin{subfigure}{0.49\linewidth}
+% 		\centering
+% 		\includegraphics[width=0.5\linewidth]{figures/fig1_MAE.pdf}
+% 		\caption{MAE-like}
+% 		\label{fig1:MAE}
+% 	\end{subfigure}
+% 	\centering
+% 	\begin{subfigure}{0.49\linewidth}
+% 		\centering
+% 		\includegraphics[width=0.5\linewidth]{figures/fig1_skeleton2vec.pdf}
+% 		\caption{Skeleton2vec(Ours)}
+% 		\label{fig1:skeleton2vec}
+% 	\end{subfigure}
+%     \caption{
+%     A comparative illustration of the prediction targets between MAE-like methods (a) and
+%     ours Skeleton2vec (b). Skeleton2vec utilizes an teacher encoder $f(x)$ to generate
+%     globally contextualized representations as the prediction targets, instead of
+%     isolated joints or temporal motion with only local context.
+%     }
+%     \label{fig1}
+% \end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.80\linewidth]{figures/fig_mae_and_skeleton2vec.pdf}
     \caption{
     A comparative illustration of the prediction targets between MAE-like methods (a) and
     ours Skeleton2vec (b). Skeleton2vec utilizes an teacher encoder $f(x)$ to generate
@@ -23,6 +35,7 @@
     isolated joints or temporal motion with only local context.
     }
     \label{fig1}
+    \vspace{-10pt}
 \end{figure}
 
 Human action recognition has significant applications in the real world, such as

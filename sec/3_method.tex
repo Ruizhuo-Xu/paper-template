@@ -167,7 +167,10 @@ To address this, as illustrated in \cref{fig2:motion_aware_tube_masking},
 we empirically divide the skeleton sequence along the time axis into multiple tubes
 instead of one tube. Each tube shares the same masking map to force the model to extract
 information from farther time steps, while different tubes use different masking maps
-to avoid joints being masked throughout. The tube division can be represented as:
+to avoid joints being masked throughout.
+The comparison between random masking, single-tube masking, and our
+multi-tube masking is visually depicted in \cref{fig:masking_cmp}.
+The tube division can be represented as:
 \begin{equation}
     \label{eq:deviding_tubes}
     E'=\text{Reshape}(E) \in \mathbb{R}^{N \times \alpha \times V \times C_{e}}, 
