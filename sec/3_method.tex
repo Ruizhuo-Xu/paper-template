@@ -26,6 +26,7 @@
     and predicts corresponding representations at the masked positions.
     }
     \label{fig2}
+    \vspace{-8pt}
 \end{figure}
 
 The overall framework of Skeleton2vec is shown in \cref{fig2}.
@@ -146,6 +147,20 @@ value $\tau_0$ to 1 throughout training.
 We propose the motion-aware multi-tube masking strategy to address the issue of high
 spatiotemporal correlations in skeleton sequences.
 
+\begin{wrapfigure}{r}{0.5\textwidth}
+    \vspace{-10pt}
+  \centering
+  \includegraphics[width=0.5\textwidth]{figures/fig_masking_cmp.pdf} % 更换图片路径
+  \caption{
+    Intuitive comparison of different masking strategies.
+    The gray shade represents the masked region, with different
+    colors denoting different masking maps, while $seq\_len$
+    indicates the length of the sequence.
+  }
+    \label{fig:masking_cmp}
+    \vspace{-10pt}
+\end{wrapfigure}
+
 \noindent \textbf{Multi-Tube Division:}
 The tube masking strategy, initially introduced by VideoMAE \cite{tong2022videomae},
 considers the entire video sequence along the temporal axis as a single tube,
@@ -161,15 +176,14 @@ long-range dependency modeling.
 In contrast, the basic units for masking in skeleton sequences
 are the joints in each skeleton frame, where the same-order joints have explicit correspondence
 across frames. As a result, a body part masked in the first skeleton frame will remain
-masked in all frames, causing a complete loss of information for that part, which makes
+masked in all frames, causing a complete loss of information
+for that part (as shown in the second row of \cref{fig:masking_cmp}), which makes
 the masked prediction task overly difficult and harms the model's learning capability.
-To address this, as illustrated in \cref{fig2:motion_aware_tube_masking},
+To address this, as illustrated in \cref{fig2:motion_aware_tube_masking} and \cref{fig:masking_cmp},
 we empirically divide the skeleton sequence along the time axis into multiple tubes
 instead of one tube. Each tube shares the same masking map to force the model to extract
 information from farther time steps, while different tubes use different masking maps
 to avoid joints being masked throughout.
-The comparison between random masking, single-tube masking, and our
-multi-tube masking is visually depicted in \cref{fig:masking_cmp}.
 The tube division can be represented as:
 \begin{equation}
     \label{eq:deviding_tubes}
@@ -177,6 +191,15 @@ The tube division can be represented as:
 \end{equation}
 
 \noindent where $\alpha$ is tube length and $N=\frac{T_{e}}{\alpha}$ is number of tubes.
+It can be observed in \cref{fig:masking_cmp} that random
+masking samples a different masking map for each frame,
+single-tube masking shares a single masking map
+across all frames, while our multi-tube masking is a compromise between the two,
+sharing the masking map only among several adjacent frames.
+This approach mitigates information leakage while encouraging the model to
+establish long-range spatiotemporal relationships.
+% The comparison between random masking, single-tube masking, and our
+% multi-tube masking is visually depicted in \cref{fig:masking_cmp}.
 
 \noindent \textbf{Motion-Aware Sampling:}
 Regions with larger motion intensity intuitively contain richer semantic information
